@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/png" href="../static/logo.png">
+    <title>Titan Settings</title>
+
+    <style>
+        body {
+            font-family: "Arial", "Helvetica", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.4;
+            background-color: #FFF;
+            padding: 10px 20px;
+            color: #525252;
+            margin: 0;
+        }
+
+        h2 {
+            font-weight: 300;
+            font-size: 28px;
+            margin: 5px 0 20px;
+        }
+
+        h4 {
+            margin-top: 25px;
+            margin-bottom: 5px;
+        }
+
+        p {
+            font-size: 12px;
+        }
+
+        hr {
+            margin: -5px 0 0;
+            border: none;
+            border-top: 1px solid #DDD;
+        }
+
+        blockquote {
+            margin-left: 10px;
+        }
+
+        select {
+            font-family: inherit;
+            width: 176px;
+            height: 30px;
+            font-size: 14px;
+            line-height: 1.4;
+            padding: 5px 14px 4px;
+            margin-top: 5px;
+            color: #525252;
+            border: 1px solid #ededed;
+            overflow: hidden;
+            background-color: white;
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        select:focus {
+            outline: none;
+        }
+
+        button {
+            position: absolute;
+            z-index: 20;
+            top: 10px;
+            right: 20px;
+            font: inherit;
+            padding: 5px 14px 4px;
+            margin: 10px 0 10px;
+            color: #FFF;
+            border: 1px solid #4cae4c;
+            background: #5CB85C;
+            text-align: center;
+            cursor: pointer;
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        button:hover, button:active {
+            border: 1px solid #4cae4c;
+            background: #63bb63;
+        }
+    </style>
+    <script>
+        window.onbeforeunload = save;
+
+        var setting = require("../common/userset");
+        var locale = require("../static/lang.json");
+        var electron = require('electron');
+        var remote = electron.remote;
+        var setts = remote.getGlobal('sharedObj').setts;
+
+        //语言和样式发生变化，通知所有渲染窗口
+        function notifyWindow(sets) {
+            if (sets["lang"] !== setts["lang"]) {
+                remote.BrowserWindow.getAllWindows().forEach(function (wins) {
+                    wins.send('changeLanguage', sets["lang"]);
+                });
+            }
+
+            if (sets["style"] !== setts["style"]) {
+                remote.BrowserWindow.getAllWindows().forEach(function (wins) {
+                    wins.send('changeStyle', sets["style"]);
+                });
+            }
+        }
+
+        function save() {
+            try {
+                var form = document.getElementById("settings");
+                var sets = {};
+                sets["lang"] = form["lang"].value;
+                sets["style"] = form["style"].value;
+                sets["minimizeToTray"] = form["mintray_mode"].checked;
+                sets["closeToTray"] = form["closetray_mode"].checked;
+                notifyWindow(sets);
+                remote.getGlobal('sharedObj').setts = sets;
+            } catch (err) {
+                alert("There was an error saving your settings: " + err);
+                console.error("Error: " + err);
+            } finally {
+                alert(locale[setting.settings["lang"]].settings.restart);
+                console.log("Success: Settings Saved.");
+                window.close();
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            //设置窗体的标题栏
+            //document.getElementById('win-title').innerText = 'TiTan Set';
+
+            var lang = setts["lang"];
+            console.log(JSON.stringify(setts));
+            //document.getElementById("title").innerHTML = locale[lang].settings.title;
+
+            document.getElementById("lang_title").innerHTML = locale[lang].settings.language;
+
+            if (lang === "en") document.getElementById("lang_en").checked = true;
+            else if (lang === "cn") document.getElementById("lang_cn").checked = true;
+
+            var style = setts["style"];
+            document.getElementById("style_title").innerHTML = locale[lang].settings.style;
+            document.getElementById("classic").innerHTML = locale[lang].settings.style_classic;
+            document.getElementById("popular").innerHTML = locale[lang].settings.style_popular;
+
+            //alert( JSON.stringify(locale[lang]));
+
+            if (style == "classic") document.getElementById("style_classic").checked = true;
+            else if (style == "popular") document.getElementById("style_popular").checked = true;
+
+            document.getElementById("mintray_title").innerHTML = locale[lang].settings.mintray_title;
+            if (setts["minimizeToTray"]) document.getElementById("mintray_mode").checked = true;
+
+            document.getElementById("closetray_title").innerHTML = locale[lang].settings.closetray_title;
+            if (setts["closeToTray"]) document.getElementById("closetray_mode").checked = true;
+
+        });
+    </script>
+</head>
+<body>
+
+<form action="javascript:save()" id="settings">
+
+    <h4><span id="lang_title">Language</span></h4>
+    <blockquote>
+        <label><input type="radio" name="lang" id="lang_en" value="en"> English</label><br>
+        <label><input type="radio" name="lang" id="lang_cn" value="cn">中文</label>
+    </blockquote>
+
+    <br>
+    <hr>
+
+    <h4><span id="style_title">Style</span></h4>
+    <blockquote>
+        <label><input type="radio" name="style" id="style_classic" value="classic"> <span
+                id="classic">古典风格</span></label><br>
+        <label><input type="radio" name="style" id="style_popular" value="popular"><span
+                id="popular">流行风格</span></label>
+    </blockquote>
+
+    <br>
+    <hr>
+
+    <h4 id="mintray_title">mintray_title</h4>
+    <label><input type="checkbox" name="mintray_mode" id="mintray_mode"> Enable</label>
+
+    <br>
+
+    <h4 id="closetray_title">closetray_title</h4>
+    <label><input type="checkbox" name="closetray_mode" id="closetray_mode">Enable</label>
+
+    <br>
+
+</form>
+</body>
+</html>

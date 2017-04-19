@@ -1,0 +1,77 @@
+{
+    "en": {
+        "title": "Titan",
+        "description": "HTML5 Client For Windows",
+        "settings": {
+            "title":"Setting",
+            "language":"Language",
+            "style":"Style",
+            "style_classic":"Classic",
+            "style_popular":"Popular",
+            "mintray_title":"Minimize to tray",
+            "closetray_title":"Close to tray",
+            "restart":"Please restart Shake to apply your changes."
+        },
+        "error": "Error",
+        "menu": {
+            "file":"File",
+            "setting":"Setting",
+            "minimize":"Minimize",
+            "close":"Close",
+
+            "view":"View",
+            "reload":"Reload",
+            "full":"Full Screen",
+            "top":"Float to Top",
+            "develop":"Develop Tools",
+
+            "help": "Support",
+            "learn":"Learn more about ",
+            "bug": "Report a Bug ...",
+            "about": "About "
+        },
+        "tray":{
+            "hide":"Hide to tray",
+            "show":"Show",
+            "quit":"Quit"
+        }
+    },
+
+    "cn": {
+        "title": "Titan",
+        "description": "基于HTML5的客户端应用程序",
+        "settings": {
+            "title":"设置",
+            "language":"语言设置",
+            "style":"风格样式",
+            "style_classic":"古典风格",
+            "style_popular":"流行风格",
+            "mintray_title":"最小化到托盘",
+            "closetray_title":"窗口关闭到托盘",
+            "restart":"请重启来应用更改."
+        },
+        "error": "错误",
+        "menu": {
+            "file":"文件",
+            "setting":"设置",
+            "minimize":"最小化",
+            "close":"关闭",
+
+            "view":"显示",
+            "reload":"刷新",
+            "full":"全屏",
+            "top":"总在前端显示",
+            "develop":"调试工具",
+
+            "help": "帮助",
+            "learn":"更多帮助信息",
+            "bug": "缺陷报告",
+            "about": "关于"
+        },
+        "tray":{
+            "hide":"隐藏到托盘",
+            "show":"显示主界面",
+            "quit":"退出"
+        }
+    }
+}

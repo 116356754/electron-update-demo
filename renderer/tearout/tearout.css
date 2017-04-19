@@ -1,0 +1,28 @@
+button,input,a,text,div {
+	-webkit-app-region: no-drag;
+}
+
+.tearout-container {
+	border: 1px solid black;
+	padding: 5px;
+	width: 210px;
+	height: 210px;
+	margin:5px;
+	float:left
+}
+
+.steelblue {
+	background-color:  steelblue;
+}
+.indianred {
+	background-color:  indianred;
+}
+.gold {
+	background-color:  gold;
+}
+.browser-link {
+	color: blue;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
